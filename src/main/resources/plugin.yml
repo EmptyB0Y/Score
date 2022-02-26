@@ -1,0 +1,12 @@
+name: Score
+version: '${project.version}'
+main: com.redsifter.score.Score
+api-version: 1.17
+author: redsifter
+commands:
+  setscore:
+    permission: score.setscore
+  showscore:
+    permission: score.showscore
+  remcurrency:
+    permission: score.remcurrency
