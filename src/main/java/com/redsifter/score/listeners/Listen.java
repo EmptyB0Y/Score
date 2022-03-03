@@ -44,6 +44,10 @@ public class Listen implements Listener {
                 amount = -10;
                 break;
             }
+            case "TeamWin": {
+                amount = 200;
+                break;
+            }
         }
         setPoints(event.getPlayer(), amount);
     }

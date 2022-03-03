@@ -8,5 +8,27 @@ commands:
     permission: score.setscore
   showscore:
     permission: score.showscore
+  remscore:
+    permission: score.remscore
+  setcurrency:
+    permission: score.setcurrency
   remcurrency:
     permission: score.remcurrency
+  withdraw-all:
+    permission: score.withdraw-all
+  showcurrency:
+    permission: score.showcurrency
+  setconvrate:
+    permission: score.setconvrate
+  withdraw:
+    permission: score.withdraw
+  convert:
+    permission: score.convert
+  sendmoney:
+    permission: score.sendmoney
+  purse:
+    permission: score.purse
+  listscores:
+    permission: score.listscores
+  listcurrencies:
+    permission: score.listcurrencies
