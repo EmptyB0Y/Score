@@ -314,6 +314,7 @@ public final class Score extends JavaPlugin {
                                                 if(Bukkit.getOnlinePlayers().contains(Bukkit.getPlayerExact(args[0]))) {
                                                     Bukkit.getPlayerExact(args[0]).sendMessage(ChatColor.DARK_GREEN + "You received " + args[2] + " from " + sender.getName()+" !");
                                                 }
+                                                money.saveConfig();
                                                 return true;
                                             }
                                         }
@@ -326,7 +327,7 @@ public final class Score extends JavaPlugin {
                                         sender.sendMessage(ChatColor.RED + "Player not found !");
                                         return false;
                                     }
-                                } catch (FileNotFoundException e) {
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
