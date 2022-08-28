@@ -5,30 +5,58 @@ api-version: 1.17
 author: redsifter
 commands:
   setscore:
+    description: Set score for a player
+    usage: /setscore <PLAYER> <AMOUNT> <SCORE>
     permission: score.setscore
   showscore:
+    description: Show score for a player or all players
+    usage: /showscore <SCORE> [PLAYER]
     permission: score.showscore
   remscore:
+    description: Remove a score entry
+    usage: /remscore <SCORE>
     permission: score.remscore
   setcurrency:
+    description: Set a currency
+    usage: /setcurrency <NAME> <CONVERSION_RATE>
     permission: score.setcurrency
   remcurrency:
+    description: Remove a currency entry
+    usage: /remcurrency <NAME>
     permission: score.remcurrency
   withdraw-all:
+    description: Withdraw points from a score to a currency for all players
+    usage: /withdraw-all <SCORE> <CURRENCY>
     permission: score.withdraw-all
   showcurrency:
+    description: Show currency for a player or all players
+    usage: /showcurrency <CURRENCY> [PLAYER]
     permission: score.showcurrency
   setconvrate:
+    description: Set conversion rate for a currency
+    usage: /setconvrate <CURRENCY> <CONVERSION_RATE>
     permission: score.setconvrate
   withdraw:
+    description: Withdraw points from a score to a currency
+    usage: /withdraw <SCORE> <CURRENCY>
     permission: score.withdraw
   convert:
+    description: Convert a given amount of money from a currency to another
+    usage: /convert <CURRENCY1> <CURRENCY2> <AMOUNT>
     permission: score.convert
   sendmoney:
+    description: Send money to a player
+    usage: /sendmoney <PLAYER> <CURRENCY> <AMOUNT>
     permission: score.sendmoney
   purse:
+    description: Show your purse for a currency or all currencies
+    usage: /purse [CURRENCY]
     permission: score.purse
   listscores:
+    description: List scores
+    usage: /listscores
     permission: score.listscores
   listcurrencies:
+    description: List currencies
+    usage: /listcurrencies
     permission: score.listcurrencies

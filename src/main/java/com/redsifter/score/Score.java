@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
@@ -32,6 +31,8 @@ public final class Score extends JavaPlugin {
 
         try {
             money = new FileManager("currencies.yml");
+            money.getConfig().set("Factions.conversion_rate",1);
+            money.saveConfig();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,6 +47,10 @@ public final class Score extends JavaPlugin {
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, @Nonnull String[] args) {
         switch (cmd.getName()) {
             case "setscore":
+                if (args.length < 3) {
+                    sender.sendMessage("Missing argument : /setscore <PLAYER> <AMOUNT> <SCORE>");
+                    return false;
+                }
                 Player pl = Bukkit.getPlayerExact(args[0]);
                 if (pl != null && Integer.parseInt(args[1]) >= 0 && args.length == 3) {
                     try {
@@ -62,8 +67,8 @@ public final class Score extends JavaPlugin {
 
                 break;
             case "showscore":
-                if (args.length > 2) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 1) {
+                    sender.sendMessage("Missing argument : /showscore <SCORE> [PLAYER]");
                     return false;
                 }
                 try {
@@ -101,6 +106,10 @@ public final class Score extends JavaPlugin {
 
                 break;
             case "remscore":
+                if (args.length < 1) {
+                    sender.sendMessage("Missing argument : /remscore <SCORE>");
+                    return false;
+                }
                 try {
                     if (scores.getConfig().getString(args[0]) != null) {
                         scores.getConfig().set(args[0], null);
@@ -115,8 +124,9 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "setcurrency":
-                if (args.length != 2) {
-                    sender.sendMessage("Set a name and a conversion factor, example : addcurrency gold 2.5");
+                if (args.length < 2) {
+                    sender.sendMessage("Missing argument : /setcurrency <NAME> <CONVERSION_RATE>");
+                    sender.sendMessage("EX: /setcurrency gold 2.5");
                     return false;
                 }
                 if (Double.parseDouble(args[1]) > 0) {
@@ -134,6 +144,10 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "remcurrency":
+                if (args.length < 1) {
+                    sender.sendMessage("Missing argument : /remcurrency <NAME>");
+                    return false;
+                }
                 try {
                     if (money.getConfig().getString(args[0]) != null) {
                         money.getConfig().set(args[0], null);
@@ -148,8 +162,8 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "withdraw-all":
-                if (args.length != 2) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 2) {
+                    sender.sendMessage("Missing argument : /withdraw-all <SCORE> <CURRENCY>");
                     return false;
                 }
                 try {
@@ -163,8 +177,8 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "showcurrency":
-                if (args.length > 2 || args.length < 1) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 1) {
+                    sender.sendMessage("Missing argument : /showcurrency <CURRENCY> [PLAYER]");
                     return false;
                 }
                 try {
@@ -213,11 +227,12 @@ public final class Score extends JavaPlugin {
 
                 break;
             case "setconvrate":
-                if (args.length != 2) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 2) {
+                    sender.sendMessage("Missing argument : /setconvrate <CURRENCY> <CONVERSION_RATE>");
                     return false;
                 }
                 if(Double.parseDouble(args[1]) <= 0){
+                    sender.sendMessage(ChatColor.RED+"You must specify a number higher than 0 !");
                     return false;
                 }
 
@@ -235,8 +250,8 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "withdraw":
-                if (args.length != 2) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 2) {
+                    sender.sendMessage("Missing argument : /withdraw <SCORE> <CURRENCY>");
                     return false;
                 }
                 if(sender instanceof Player) {
@@ -252,8 +267,8 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "convert":
-                if (args.length > 3 || args.length < 2) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 3) {
+                    sender.sendMessage("Missing argument : /convert <CURRENCY1> <CURRENCY2> <AMOUNT>");
                     return false;
                 }
                 if(sender instanceof Player) {
@@ -273,8 +288,8 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "sendmoney":
-                if (args.length != 3) {
-                    sender.sendMessage("Wrong argument amount !");
+                if (args.length < 3) {
+                    sender.sendMessage("Missing argument : /sendmoney <PLAYER> <CURRENCY> <AMOUNT>");
                     return false;
                 }
                 if(Double.parseDouble(args[2]) <= 0){
@@ -337,10 +352,6 @@ public final class Score extends JavaPlugin {
                 }
                 break;
             case "purse":
-                if (args.length > 1) {
-                    sender.sendMessage("Wrong argument amount !");
-                    return false;
-                }
                 if(sender instanceof Player) {
                     Set<String> keys = null;
                     try {
@@ -508,10 +519,6 @@ public final class Score extends JavaPlugin {
                         }
                         if (money.getConfig().contains(currency2 + ".players." + i)) {
                             amount += money.getConfig().getDouble(currency2 + ".players." + i);
-                        }
-                        System.out.println(am);
-                        if(am == 0){
-                            System.out.println("test");
                         }
                         money.getConfig().set(currency2 + ".players." + i, amount + (sent * (1 / conversion)));
                         money.getConfig().set(currency1 + ".players." + i, total);
